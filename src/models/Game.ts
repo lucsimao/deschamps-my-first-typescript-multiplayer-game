@@ -1,5 +1,6 @@
 import { IState } from './interfaces/IState';
 import { IPlayer } from './interfaces/states-attributes/IPlayer';
+import { IFruit } from './interfaces/states-attributes/IFruit';
 
 const DEFAULT_SCREEN_HEIGHT = 20;
 const DEFAULT_SCREEN_WIDTH = 20;
@@ -13,6 +14,7 @@ export class Game {
   ) {
     this._state = {
       players: {},
+      fruits: {},
       screen: {
         width: screenWidth,
         height: screenHeight,
@@ -26,6 +28,14 @@ export class Game {
 
   public removePlayer(player: IPlayer): void {
     delete this._state.players[player.playerId];
+  }
+
+  public addFruit(fruit: IFruit): void {
+    this._state.fruits[fruit.fruitId] = fruit;
+  }
+
+  public removeFruit(fruit: IFruit): void {
+    delete this._state.fruits[fruit.fruitId];
   }
 
   public get state(): IState {
