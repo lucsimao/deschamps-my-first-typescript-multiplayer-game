@@ -1,4 +1,5 @@
 import { Game } from '@src/models/Game';
+import { ICommand } from '@src/models/interfaces/observers/ICommand';
 
 describe('Game tests', () => {
   const state = {
@@ -63,6 +64,35 @@ describe('Game tests', () => {
 
       game.checkForFruitCollision(player);
       expect(game.state.fruits['fruit1']).toBeUndefined();
+    });
+  });
+
+  describe('Observer test', () => {
+    it('should add an observer when subscribe', () => {
+      const observersOutput = [];
+      const observer = {
+        exec: (command: ICommand) => {
+          observersOutput.push(command);
+        },
+      };
+
+      game.subscribe(observer);
+      expect(game.observersSize()).toBe(1);
+    });
+
+    it('should execute observer method when notify all', () => {
+      const observersOutput: ICommand[] = [];
+      const observer = {
+        exec: (command: ICommand) => {
+          observersOutput.push(command);
+        },
+      };
+
+      game.subscribe(observer);
+      expect(game.observersSize()).toBe(1);
+
+      game.notifyAll({ type: 'observer' });
+      expect(observersOutput).toEqual([{ type: 'observer' }]);
     });
   });
 });
