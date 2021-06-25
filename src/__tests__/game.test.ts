@@ -53,5 +53,16 @@ describe('Game tests', () => {
       game.removeFruit(fruit);
       expect(game.state.fruits['fruit1']).toBeUndefined();
     });
+
+    it('should remove fruit if object collides', () => {
+      const player = { playerId: 'player1', x: 10, y: 10 };
+      const fruit = { fruitId: 'fruit1', x: 10, y: 10 };
+
+      game.addPlayer(player);
+      game.addFruit(fruit);
+
+      game.checkForFruitCollision(player);
+      expect(game.state.fruits['fruit1']).toBeUndefined();
+    });
   });
 });
