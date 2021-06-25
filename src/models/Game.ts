@@ -2,17 +2,19 @@ import { IState } from './interfaces/IState';
 import { isCollidingElements } from '@src/utils/elementsUtils';
 import { IPlayer } from './interfaces/states-attributes/IPlayer';
 import { IFruit } from './interfaces/states-attributes/IFruit';
+import { AbstractSubject } from './interfaces/observers/AbstractSubject';
 
 const DEFAULT_SCREEN_HEIGHT = 20;
 const DEFAULT_SCREEN_WIDTH = 20;
 
-export class Game {
+export class Game extends AbstractSubject {
   private _state: IState;
 
   constructor(
     screenWidth: number = DEFAULT_SCREEN_WIDTH,
     screenHeight: number = DEFAULT_SCREEN_HEIGHT
   ) {
+    super();
     this._state = {
       players: {},
       fruits: {},
