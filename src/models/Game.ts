@@ -1,4 +1,5 @@
 import { IState } from './interfaces/IState';
+import { isCollidingElements } from '@src/utils/elementsUtils';
 import { IPlayer } from './interfaces/states-attributes/IPlayer';
 import { IFruit } from './interfaces/states-attributes/IFruit';
 
@@ -37,6 +38,16 @@ export class Game {
   public removeFruit(fruit: IFruit): void {
     delete this._state.fruits[fruit.fruitId];
   }
+
+  public checkForFruitCollision = (player: IPlayer): void => {
+    const fruits = Object.values(this._state.fruits);
+
+    fruits.forEach((fruit: IFruit) => {
+      if (isCollidingElements(player, fruit)) {
+        this.removeFruit(fruit);
+      }
+    });
+  };
 
   public get state(): IState {
     return this._state;
