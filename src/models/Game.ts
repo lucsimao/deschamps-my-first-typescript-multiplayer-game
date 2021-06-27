@@ -3,6 +3,8 @@ import { isCollidingElements } from '@src/utils/elementsUtils';
 import { IPlayer } from './interfaces/states-attributes/IPlayer';
 import { IFruit } from './interfaces/states-attributes/IFruit';
 import { AbstractSubject } from './interfaces/observers/AbstractSubject';
+import { IMoveCommand } from './interfaces/observers/IMoveCommand';
+import { validCommands } from '@src/helpers/validCommandsHelper';
 
 const DEFAULT_SCREEN_HEIGHT = 20;
 const DEFAULT_SCREEN_WIDTH = 20;
@@ -31,6 +33,16 @@ export class Game extends AbstractSubject {
 
   public removePlayer(player: IPlayer): void {
     delete this._state.players[player.playerId];
+  }
+
+  public movePlayer(command: IMoveCommand): void {
+    const playerId = command.player.playerId;
+    const player = this._state.players[playerId];
+    const moveFunction = validCommands[command.move];
+
+    if (player) {
+      moveFunction(player, this._state.screen);
+    }
   }
 
   public addFruit(fruit: IFruit): void {
