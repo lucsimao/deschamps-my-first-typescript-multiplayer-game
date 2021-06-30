@@ -1,13 +1,13 @@
 import { IState } from './interfaces/IState';
-import { isCollidingElements } from '@src/utils/elementsUtils';
+import { isCollidingElements } from '../utils/elementsUtils';
 import { IPlayer } from './interfaces/states-attributes/IPlayer';
 import { IFruit } from './interfaces/states-attributes/IFruit';
 import { AbstractSubject } from './interfaces/observers/AbstractSubject';
 import { IMoveCommand } from './interfaces/observers/IMoveCommand';
 import { validCommands } from '@src/helpers/validCommandsHelper';
 
-const DEFAULT_SCREEN_HEIGHT = 20;
-const DEFAULT_SCREEN_WIDTH = 20;
+const DEFAULT_SCREEN_HEIGHT = 15;
+const DEFAULT_SCREEN_WIDTH = 15;
 
 export class Game extends AbstractSubject {
   private _state: IState;
@@ -27,25 +27,56 @@ export class Game extends AbstractSubject {
     };
   }
 
-  public addPlayer(player: IPlayer): void {
+  public start(startFunction: () => void): void {
+    const frequency = 2000;
+    setInterval(() => {
+      this.addFruit();
+      startFunction();
+    }, frequency);
+  }
+
+  public addPlayer(playerId: string, x?: number, y?: number): void {
+    const playerX =
+      x !== undefined
+        ? x
+        : Math.floor(Math.random() * this._state.screen.width);
+    const playerY =
+      y !== undefined
+        ? y
+        : Math.floor(Math.random() * this._state.screen.height);
+    const player = {
+      playerId,
+      x: playerX,
+      y: playerY,
+    };
+
     this._state.players[player.playerId] = player;
   }
 
-  public removePlayer(player: IPlayer): void {
-    delete this._state.players[player.playerId];
+  public removePlayer(playerId: string): void {
+    delete this._state.players[playerId];
   }
 
   public movePlayer(command: IMoveCommand): void {
-    const playerId = command.player.playerId;
+    const playerId = command.playerId;
     const player = this._state.players[playerId];
     const moveFunction = validCommands[command.move];
-
-    if (player) {
+    if (player && moveFunction !== undefined) {
       moveFunction(player, this._state.screen);
+      this.checkForFruitCollision(player);
     }
   }
 
-  public addFruit(fruit: IFruit): void {
+  public addFruit(
+    fruitId: string = this.calculateRandomId(),
+    x: number = this.calculateRandomX(),
+    y: number = this.calculateRandomY()
+  ): void {
+    const fruit = {
+      fruitId,
+      x,
+      y,
+    };
     this._state.fruits[fruit.fruitId] = fruit;
   }
 
@@ -65,5 +96,17 @@ export class Game extends AbstractSubject {
 
   public get state(): IState {
     return this._state;
+  }
+
+  private calculateRandomX(): number {
+    return Math.floor(Math.random() * this._state.screen.width);
+  }
+
+  private calculateRandomY(): number {
+    return Math.floor(Math.random() * this._state.screen.height);
+  }
+
+  private calculateRandomId(): string {
+    return `${Math.floor(Math.random() * 100000)}`;
   }
 }
