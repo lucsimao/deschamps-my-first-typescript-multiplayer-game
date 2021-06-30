@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My first typescript multiplayer game</title>
+    <style>
+      #screen {
+        border: 10px solid #ccc;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+        image-rendering: -moz-crisp-edges;
+      }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <canvas id="screen" width="400" height="400"></canvas>
+    <script type="module">
+      import renderScreen from './render.js';
+      import createKeyboardListener from './keyboardListener.js';
+
+      const socket = io();
+
+      const keyboardListener = createKeyboardListener(document);
+      const game = {
+        state: {
+          players: {
+            player1: { x: 0, y: 0 },
+          },
+          fruits: {},
+          screen: {
+            width: 10,
+            height: 10,
+          },
+        },
+      };
+      socket.on('connect', () => {
+        const screen = document.getElementById('screen');
+
+        const playerId = socket.id;
+
+        console.log('connected');
+        renderScreen(screen, game, requestAnimationFrame, playerId);
+        keyboardListener.registerPlayerId(playerId);
+        keyboardListener.subscribe((command) => {
+          socket.emit('move-player', command);
+        });
+      });
+
+      socket.on('setup', (state) => {
+        console.log(`Receiving "setup" event from server`);
+        console.log(state);
+
+        const playerId = socket.id;
+        game.state = state;
+      });
+    </script>
+  </body>
+</html>

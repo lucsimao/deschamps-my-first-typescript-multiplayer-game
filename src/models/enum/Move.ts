@@ -1,6 +1,6 @@
 export enum Move {
-  UP = 'UP',
-  DOWN = 'DOWN',
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT',
+  UP = 'Up',
+  DOWN = 'Down',
+  LEFT = 'Left',
+  RIGHT = 'Right',
 }
