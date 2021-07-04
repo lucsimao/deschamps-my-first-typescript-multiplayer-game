@@ -12,8 +12,10 @@ const PUBLIC = 'public';
 const sockets = new Server(server);
 const game = new Game();
 
+sockets._connectTimeout = 1200;
+
 game.start(() => {
-  sockets.emit('setup', game.state);
+  sockets.emit('update', game.state);
 });
 
 sockets.on('connection', (socket) => {
@@ -23,12 +25,12 @@ sockets.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     game.removePlayer(playerId);
-    sockets.emit('setup', game.state);
+    sockets.emit('update', game.state);
   });
 
   socket.on('move-player', (moveCommand: IMoveCommand) => {
     game.movePlayer(moveCommand);
-    sockets.emit('setup', game.state);
+    sockets.emit('update', game.state);
   });
 });
 
