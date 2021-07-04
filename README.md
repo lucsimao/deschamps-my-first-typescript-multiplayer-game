@@ -38,6 +38,12 @@ To create this project, we used following technologies, text editor and packages
 - [Typescript](https://www.typescriptlang.org/).
 - [Supertest](https://www.npmjs.com/package/supertest).
 
+# Art
+
+Sprites was created using [Character Generator](https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/)
+
+Other images has been derived from [Open Game Art](https://opengameart.org/)
+
 # References
 
 - [Como foi programar meu primeiro jogo multiplayer online](https://www.youtube.com/watch?v=0sTfIZvjYJk&list=PLMdYygf53DP5SVQQrkKCVWDS0TwYLVitL&index=2)
