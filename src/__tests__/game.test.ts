@@ -108,16 +108,16 @@ describe('Game tests', () => {
     });
 
     it('should add a fruit when invoke game.addFruit', () => {
-      const fruit = { fruitId: 'fruit1', x: 10, y: 10 };
+      const fruit = { fruitId: 'fruit1', x: 10, y: 10, fruitName: 'banana' };
 
-      game.addFruit(fruit.fruitId, fruit.x, fruit.y);
+      game.addFruit(fruit.fruitId, fruit.x, fruit.y, fruit.fruitName);
       expect(game.state.fruits['fruit1']).toEqual(fruit);
     });
 
     it('should remove fruit when invoke game.removeFruit', () => {
-      const fruit = { fruitId: 'fruit1', x: 10, y: 10 };
+      const fruit = { fruitId: 'fruit1', x: 10, y: 10, fruitName: 'apple' };
 
-      game.addFruit(fruit.fruitId, fruit.x, fruit.y);
+      game.addFruit(fruit.fruitId, fruit.x, fruit.y, fruit.fruitName);
       expect(game.state.fruits['fruit1']).toEqual(fruit);
 
       game.removeFruit(fruit);
