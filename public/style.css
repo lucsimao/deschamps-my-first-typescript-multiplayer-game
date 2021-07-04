@@ -1,9 +1,9 @@
-#screen {
-  border: 10px solid #ccc;
+#background {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   image-rendering: -moz-crisp-edges;
-  box-shadow: 60px -16px teal;
+  box-shadow: 5px 5px darkgray;
+  background-image: url('./assets/background.png');
 }
 
 .center {
@@ -21,5 +21,6 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   display: block;
-  width: 800px;
+  position: absolute;
+  background-image: url('./assets/background.png');
 }

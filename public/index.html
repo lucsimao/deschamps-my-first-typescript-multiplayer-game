@@ -4,15 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" />
     <title>My first typescript multiplayer game</title>
     <link rel="stylesheet" href="style.css" />
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    <div class="center">
-      <canvas id="screen" width="400" height="400"></canvas>
-    </div>
-
-    <script type="module" src="game.js"></script>
+    <canvas class="center" id="background"></canvas>
+    <canvas class="center" id="screen"></canvas>
+    <script type="module" src="./src/client.js"></script>
   </body>
 </html>
