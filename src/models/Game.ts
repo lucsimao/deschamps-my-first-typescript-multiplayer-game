@@ -5,6 +5,7 @@ import { IFruit } from './interfaces/states-attributes/IFruit';
 import { AbstractSubject } from './interfaces/observers/AbstractSubject';
 import { IMoveCommand } from './interfaces/observers/IMoveCommand';
 import { validCommands } from '@src/helpers/validCommandsHelper';
+import { FruitName } from './enum/FruitName';
 
 const DEFAULT_SCREEN_HEIGHT = 15;
 const DEFAULT_SCREEN_WIDTH = 15;
@@ -71,12 +72,14 @@ export class Game extends AbstractSubject {
   public addFruit(
     fruitId: string = this.calculateRandomId(),
     x: number = this.calculateRandomX(),
-    y: number = this.calculateRandomY()
+    y: number = this.calculateRandomY(),
+    fruitName: string = this.getRandomFruitName()
   ): void {
     const fruit = {
       fruitId,
       x,
       y,
+      fruitName,
     };
     this._state.fruits[fruit.fruitId] = fruit;
   }
@@ -109,5 +112,11 @@ export class Game extends AbstractSubject {
 
   private calculateRandomId(): string {
     return `${Math.floor(Math.random() * 100000)}`;
+  }
+
+  public getRandomFruitName(): string {
+    const fruitValues = Object.values(FruitName);
+    const randomIndex = Math.floor(Math.random() * fruitValues.length);
+    return fruitValues[randomIndex];
   }
 }
