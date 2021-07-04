@@ -63,6 +63,7 @@ export class Game extends AbstractSubject {
     const moveFunction = validCommands[command.move];
     if (player && moveFunction !== undefined) {
       moveFunction(player, this._state.screen);
+      player.lastMove = command.move;
       this.checkForFruitCollision(player);
     }
   }
